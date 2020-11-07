@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title%} New Post {% endblock title%}
+{% block blogactive %} active {% endblock blogactive %}
+{% block body %}
+    <div class="container my-3">
+        <h3>Write a New Post</h3>
+        <form method="post" action="/blog/blog_new_post/{{ user.username }}/">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="title">Post Title</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter post title">
+            </div>
+            <div class="form-group">
+                <label for="source">Post Source</label>
+                <input type="text" class="form-control" id="source" name="source" placeholder="Enter post source">
+            </div>
+            <div class="form-group">
+                <label for="content">Post Text</label>
+                <textarea class="form-control" rows=9 id="content" name="content" placeholder="Enter post text"></textarea>
+            </div>
+            <button type="submit" class="btn btn-dark">Submit</button>
+        </form>
+    </div>
+{% endblock body %}

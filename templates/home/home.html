@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title%} Home {% endblock title%}
+{% block homeactive %} active {% endblock homeactive %}
+{% block body %}
+    <div class="container my-3">
+        <div class="jumbotron">
+            <h1 class="display-4">Hello There.</h1>
+            <p class="lead">This is the website homepage. You can navigate to news feed from here or check our top
+                posts below.</p>
+            <hr class="my-4">
+            <a class="btn btn-dark btn-lg" href="/blog" role="button">News Feed</a>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Most Rated Posts:</h2>
+            {% for post in most_rated %}
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <div class="mb-1 text-muted">
+                        Posted by
+                        <a href="/blog/blog_user_posts/{{ post.author }}/" class="text-muted text-decoration-none">
+                            {{ post.author }}
+                        </a>
+                        {{ post.get_date }} <br> ({{ post.views }} views, {{ post.votes_up }} upvotes)
+                    </div>
+                    <a href="/blog/{{ post.id }}/{{ post.slug }}"
+                       class="text-body text-decoration-none">
+                        <h3 class="mb-2">{{ post.title }}</h3>
+                    </a>
+                    <p class="card-text mb-3">{{ post.content | truncatechars:500 }}</p>
+                    <a class="text-decoration-none text-muted my-1" href="{{ post.source }}">
+                        Source: {{ post.source }}
+                    </a>
+                    <div class="my-0 mt-3">
+                        <p>Comments: {{ post.comments }}</p>
+                        <p>Rating: {{ post.get_rating }}</p>
+                        <a href="/blog/{{ post.id }}/{{ post.slug }}" role="button" class="btn btn-dark">
+                            Read more
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        <h2>Most Viewed Posts:</h2>
+            {% for post in most_viewed %}
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <div class="mb-1 text-muted">
+                        Posted by
+                        <a href="/blog/blog_user_posts/{{ post.author }}/" class="text-muted text-decoration-none">
+                            {{ post.author }}
+                        </a>
+                        {{ post.get_date }}  <br> ({{ post.views }} views, {{ post.votes_up }} upvotes)
+                    </div>
+                    <a href="/blog/{{ post.id }}/{{ post.slug }}"
+                       class="text-body text-decoration-none">
+                        <h3 class="mb-2">{{ post.title }}</h3>
+                    </a>
+                    <p class="card-text mb-3">{{ post.content | truncatechars:500 }}</p>
+                    <a class="text-decoration-none text-muted my-1" href="{{ post.source }}">
+                        Source: {{ post.source }}
+                    </a>
+                    <div class="my-0 mt-3">
+                        <p>Comments: {{ post.comments }}</p>
+                        <p>Rating: {{ post.get_rating }}</p>
+                        <a href="/blog/{{ post.id }}/{{ post.slug }}" role="button" class="btn btn-dark">
+                            Read more
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        <h2>Most Discussed Posts:</h2>
+            {% for post in most_discussed %}
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <div class="mb-1 text-muted">
+                        Posted by
+                        <a href="/blog/blog_user_posts/{{ post.author }}/" class="text-muted text-decoration-none">
+                            {{ post.author }}
+                        </a>
+                        {{ post.get_date }} <br> ({{ post.views }} views, {{ post.votes_up }} upvotes)
+                    </div>
+                    <a href="/blog/{{ post.id }}/{{ post.slug }}"
+                       class="text-body text-decoration-none">
+                        <h3 class="mb-2">{{ post.title }}</h3>
+                    </a>
+                    <p class="card-text mb-3">{{ post.content | truncatechars:500 }}</p>
+                    <a class="text-decoration-none text-muted my-1" href="{{ post.source }}">
+                        Source: {{ post.source }}
+                    </a>
+                    <div class="my-0 mt-3">
+                        <p>Comments: {{ post.comments }}</p>
+                        <p>Rating: {{ post.get_rating }}</p>
+                        <a href="/blog/{{ post.id }}/{{ post.slug }}" role="button" class="btn btn-dark">
+                            Read more
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock body %}

@@ -1,0 +1,28 @@
+<div class="pagination">
+    {% if all_posts.has_previous %}
+        <a class="pagination-action btn btn-outline-dark mr-2 my-sm-0" href="?query={{ query }}&page=1">
+            <i class="fa fa-angle-double-left" aria-hidden="true"></i> </a>
+        <a class="pagination-action btn btn-outline-dark mr-2 my-sm-0"
+           href="?query={{ query }}&page={{ all_posts.previous_page_number }}">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+        </a>
+    {% endif %}
+    {% for num in all_posts.paginator.page_range %}
+        {% if all_posts.number == num %}
+            <span class="pagination-number pagination-current btn btn-outline-dark mr-2 my-sm-0 active">{{ num }}</span>
+        {% elif num > all_posts.number|add:'-3' and num < all_posts.number|add:'3' %}
+            <a class="pagination-number btn btn-outline-dark mr-2 my-sm-0"
+               href="?query={{ query }}&page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+    {% if all_posts.has_next %}
+        <a class="pagination-action btn btn-outline-dark mr-2 my-sm-0"
+           href="?query={{ query }}&page={{ all_posts.next_page_number }}">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+        </a>
+        <a class="pagination-action btn btn-outline-dark mr-2 my-sm-0"
+           href="?query={{ query }}&page={{ all_posts.paginator.num_pages }}">
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+        </a>
+    {% endif %}
+</div>

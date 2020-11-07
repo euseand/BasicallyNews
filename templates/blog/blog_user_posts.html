@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %} Profile {% endblock title %}
+{% block blogactive %} active {% endblock blogactive %}
+{% block body %}
+    <div class="container my-3">
+        {% if user.username == username %}
+            <h2>Publications made by you:</h2>
+        {% else %}
+            <h2>Publications made by {{ username }}:</h2>
+        {% endif %}
+        {% if all_posts|length == 0 %}
+            <p>You haven't been posting anything yet.</p>
+        {% endif %}
+        {% for post in all_posts %}
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <div class="mb-1 text-muted">
+                        Posted by
+                        <a href="/blog/blog_user_posts/{{ post.author }}/" class="text-muted text-decoration-none">
+                            {{ post.author }}
+                        </a>
+                        {{ post.get_date }}  <br> ({{ post.views }} views, {{ post.votes_up }} upvotes)
+                    </div>
+                    <a href="/blog/{{ post.id }}/{{ post.slug }}"
+                       class="text-body text-decoration-none">
+                        <h3 class="mb-2">{{ post.title }}</h3>
+                    </a>
+                    <p class="card-text mb-3">{{ post.content | truncatechars:500 }}</p>
+                    <a class="text-decoration-none text-muted my-1" href="{{ post.source }}">
+                    Source: {{ post.source }}
+                    </a>
+                    <div class="my-0 mt-2">
+                        <p>Comments: {{ post.comments }}</p>
+                        <p>Rating: {{ post.get_rating }}</p>
+                        <a href="/blog/{{ post.id }}/{{ post.slug }}" role="button"
+                           class="btn btn-dark">
+                            Read more
+                        </a>
+                    </div>
+                </div>
+                {% if user.username == username %}
+                <div class="my-1 p-2 float-right ">
+                    <a role="button" class="btn btn-dark mx-0 my-sm-0 fa fa-edit"
+                       href="/blog/blog_edit_post/{{ username }}/{{ post.id }}">
+                    </a>
+                    <button class="btn btn-dark mx-0 my-sm-0 fa fa-trash-alt"
+                            data-toggle="modal" data-target="#deletePostModal">
+                    </button>
+                </div>
+                <div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog"
+                     aria-labelledby="deletePostModal"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deletePostModal">Delete Post</h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete this post?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a role="button" href="/blog/blog_delete_post/{{ user.username }}/{{ post.id }}"
+                                   class="btn btn-dark">Delete</a>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="container my-3">
+        {% if all_posts.paginator.num_pages > 1 %}
+            {% include 'pagination.html' with all_posts=all_posts %}
+        {% endif %}
+    </div>
+{% endblock body %}

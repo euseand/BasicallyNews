@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %} Profile {% endblock title %}
+{% block body %}
+    <div class="container my-3">
+        <h2>Publications upvoted by you:</h2>
+        {% if all_posts|length == 0 %}
+            <p>You haven't been upvoting anything yet.</p>
+        {% endif %}
+        {% for post in all_posts %}
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <a href="/blog/{{ post.id }}/{{ post.slug }}"
+                       class="text-body text-decoration-none">
+                        <h3 class="mb-2">{{ post.title }}</h3>
+                    </a>
+                    <div class="mb-1 text-muted">Posted by
+                        <a href="/blog/blog_user_posts/{{ post.author }}/" class="text-muted text-decoration-none">
+                            {{ post.author }}
+                        </a>
+                        {{ post.get_date }}  <br> ({{ post.views }} views, {{ post.votes_up }} upvotes)
+                    </div>
+                    <p class="card-text mb-3">{{ post.content | truncatechars:500 }}</p>
+                    <a class="text-decoration-none text-muted my-1" href="{{ post.source }}">
+                    Source: {{ post.source }}
+                    </a>
+                    <div class="my-0 mt-2">
+                        <p>Comments: {{ post.comments }}</p>
+                        <p>Rating: {{ post.get_rating }}</p>
+                        <a href="/blog/{{ post.id }}/{{ post.slug }}" role="button"
+                           class="btn btn-dark">
+                            Read more
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="container my-3">
+            {% if all_posts.paginator.num_pages > 1 %}
+                {% include 'pagination.html' with all_posts=all_posts %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock body %}
